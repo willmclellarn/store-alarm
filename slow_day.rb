@@ -1,7 +1,6 @@
-source "https://rubygems.org"
-ruby "2.6.0"
-
 require 'httparty'
+require 'sinatra'
+
 order_threshold = 5
 
 lookback_minutes = 15
