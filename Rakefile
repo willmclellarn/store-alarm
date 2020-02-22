@@ -1,7 +1,8 @@
 desc "This task is called by the Heroku cron add-on"
 task :cron do
   require 'sinatra'
-  
+  require 'httparty'
+
   order_threshold = 5
 
   lookback_minutes = 15
