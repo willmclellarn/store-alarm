@@ -1,5 +1,7 @@
 require 'httparty'
 require 'sinatra'
+require 'irb'
+require 'pony'
 
 order_threshold = 5
 
@@ -12,10 +14,24 @@ final_url = base_url + '&created_at_min=' + lookback_string
 response = HTTParty.get(final_url)
 order_count = response["count"]
 
-puts order_count
+puts "we're at the mail step slow_day"
 
-if order_count < order_threshold
-  puts "You better check your store"
-else puts "Your store is probably OK :)"
-end 
+Pony.options = {
+  :subject => "You're under threshold",
+  :body => 'Hi - this shouldnt hit spam',
+  :via => :smtp,
+  :via_options => {
+    :address              => 'smtp.gmail.com',
+    :port                 => '587',
+    :enable_starttls_auto => true,
+    :user_name            => 'hello@cardinalecommerce.com',
+    :password             => 'bzhamfyizylrgihx',
+    :authentication       => :plain, # :plain, :login, :cram_md5, no auth by default
+    :domain               => "localhost.localdomain"
+  }
+}
 
+Pony.mail(:to => 'willmclellarn@gmail.com')
+
+# You've had #{order_count} orders in the last #{lookback_minutes} on your Store. 
+# The threshold you defined is #{order_threshold}.

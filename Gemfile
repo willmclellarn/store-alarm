@@ -7,4 +7,6 @@ group :production do
   gem 'sinatra'
   gem 'httparty'
   gem 'rake'
+  gem 'irb'
+  gem 'pony'
 end
